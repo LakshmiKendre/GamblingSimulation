@@ -26,13 +26,15 @@ do
 	done
 	Array[$day]=$((cash-STAKE))
 	totalAmount=$((totalAmount+${Array[$day]}))
+	echo "Day$day $totalAmount"
 done	
-if (( $totalAmount < 0 ))
+if (( $totalAmount > 0 ))
 then
-	echo -e "Lost \n Total amount : $totalAmount"
+	echo Won
 else
-	echo -e "win \n Total amount : $totalAmount"
+	echo Lost
 fi
+
 }
 
 percentage()

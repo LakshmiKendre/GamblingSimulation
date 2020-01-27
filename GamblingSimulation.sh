@@ -1,24 +1,38 @@
 #!/bin/bash
 
 echo "Welcome to the Gambling Simulation"
-STAKE=100
+
 BET=1
-cash=$STAKE
+DAY=20
+declare -A Array
 
 gamble()
 {
-percentage
-while(( cash > MIN_STAKE && cash < MAX_STAKE ))
+totalAmount=0
+for((day=1; day<=DAY; day++))
 do
-	if (( $((RANDOM%2))==1 ))
-	then
-		cash=$((cash+BET))
-		echo -e "Win \n cash= $cash"
-	else
-		cash=$((cash-BET))
-		echo -e "Loose \n cash= $cash"
-	fi
-done
+	STAKE=100
+	cash=$STAKE
+	percentage
+
+	while(( cash > MIN_STAKE && cash < MAX_STAKE ))
+	do
+		if (( $((RANDOM%2))==1 ))
+		then
+			cash=$((cash+BET))
+		else
+			cash=$((cash-BET))
+		fi
+	done
+	Array[$day]=$((cash-STAKE))
+	totalAmount=$((totalAmount+${Array[$day]}))
+done	
+if (( $totalAmount < 0 ))
+then
+	echo -e "Lost \n Total amount : $totalAmount"
+else
+	echo -e "win \n Total amount : $totalAmount"
+fi
 }
 
 percentage()
@@ -27,3 +41,5 @@ percentage()
 	MAX_STAKE=$(( STAKE + $((STAKE*50/100)) ))
 }
 gamble
+
+

@@ -44,5 +44,16 @@ lucky(){
     done | sort -rn -k2 
 }
 
+playNextMonth(){
+while (( ${Array[20]} > 0 ))
+do
+	echo -e "Available cash : ${Array[20]} \nGambler can play next month \n"
+	gamble
+done
+echo -e "Available cash : ${Array[20]} \nGambler can't play next month \n "
+}
+
 gamble
+playNextMonth
+
 

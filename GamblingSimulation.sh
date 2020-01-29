@@ -6,8 +6,7 @@ BET=1
 DAY=20
 declare -A Array
 
-gamble()
-{
+gamble(){
 totalAmount=0
 for((day=1; day<=DAY; day++))
 do
@@ -24,24 +23,26 @@ do
 			cash=$((cash-BET))
 		fi
 	done
+
 	Array[$day]=$((cash-STAKE))
 	totalAmount=$((totalAmount+${Array[$day]}))
-	echo "Day$day $totalAmount"
-done	
-if (( $totalAmount > 0 ))
-then
-	echo Won
-else
-	echo Lost
-fi
+	Array[$day]=$totalAmount
+done
 
+echo -e "Luckiest: $(lucky | head -1 ) \nUnluckiest: $(lucky | tail -1 )"	
 }
 
-percentage()
-{
+percentage(){
 	MIN_STAKE=$(( STAKE - $((STAKE*50/100)) ))
 	MAX_STAKE=$(( STAKE + $((STAKE*50/100)) ))
 }
-gamble
 
+lucky(){
+    for day in ${!Array[@]}
+    do
+        echo "Day$day ${Array[$day]}"
+    done | sort -rn -k2 
+}
+
+gamble
 
